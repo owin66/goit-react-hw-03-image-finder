@@ -30,15 +30,13 @@ export class App extends Component {
     error: null,
     showModal: false,
     largeImageURL: '',
+    total: '',
   };
 
   componentDidUpdate(_, prevState) {
-    if (
-      prevState.page !== this.state.page ||
-      prevState.query !== this.state.query
-    ) {
-      const query = this.state.query;
-      const page = this.state.page;
+    const { query, page } = this.state;
+
+    if (prevState.page !== page || prevState.query !== query) {
       this.fetchImages(query, page);
     }
   }
@@ -67,8 +65,6 @@ export class App extends Component {
 
       this.setState(prev => {
         return {
-          query,
-          page,
           images: [...prev.images, ...result.hits],
           total: result.total,
         };
@@ -97,9 +93,10 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, error, showModal, largeImageURL } = this.state;
-    const shouldRenderLoadMoreButton = images.length > 0 && !isLoading;
-
+    const { images, isLoading, error, showModal, largeImageURL, total } =
+      this.state;
+    const shouldRenderLoadMoreButton =
+      images.length > 0 && !isLoading && total > images.length;
     return (
       <div>
         <Searchbar onSubmit={this.onChangeQuery} />
