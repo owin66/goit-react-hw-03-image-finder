@@ -7,7 +7,7 @@ class Modal extends Component {
     window.addEventListener('keydown', this.handleKeyDown);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (!prevProps.show && this.props.show) {
       window.addEventListener('keydown', this.handleKeyDown);
     }
